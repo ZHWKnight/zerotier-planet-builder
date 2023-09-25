@@ -11,7 +11,9 @@ RUN cd /opt && \
     git clone -v https://github.com/zerotier/ZeroTierOne.git --depth 1
 
 RUN echo "install zerotier..." && \
-    curl -s https://install.zerotier.com | bash > /dev/null && \
+    # modify temporarily zerotier version from the latest to 1.10.6
+    # curl -s https://install.zerotier.com | bash > /dev/null && \
+    curl -s https://install.zerotier.com | sed 's#apt-get install -y zerotier-one#apt-get install -y zerotier-one=1.10.6#' | bash > /dev/null && \
     cd /var/lib/zerotier-one && zerotier-idtool initmoon identity.public >moon.json
 ADD ./patch /app/patch
 ARG planet
